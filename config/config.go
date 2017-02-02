@@ -63,6 +63,9 @@ func NewDefaultCluster() *Cluster {
 			Enabled:      false,
 			MaxBatchSize: 1,
 		},
+		Kube2IamSupport{
+			Enabled: false,
+		},
 	}
 
 	return &Cluster{
@@ -351,6 +354,7 @@ type WorkerSettings struct {
 	WorkerSecurityGroupIds []string `yaml:"workerSecurityGroupIds,omitempty"`
 	WorkerTenancy          string   `yaml:"workerTenancy,omitempty"`
 	WorkerTopologyPrivate  bool     `yaml:"workerTopologyPrivate,omitempty"`
+	WorkerManagedIamRole   string   `yaml:"workerManagedIamRole,omitempty"`
 }
 
 // Part of configuration which is specific to controller nodes
@@ -416,6 +420,7 @@ type Experimental struct {
 	Plugins                  Plugins                  `yaml:"plugins"`
 	Taints                   []Taint                  `yaml:"taints"`
 	WaitSignal               WaitSignal               `yaml:"waitSignal"`
+	Kube2IamSupport          Kube2IamSupport          `yaml:"kube2IamSupport,omitempty"`
 }
 
 type AwsEnvironment struct {
@@ -489,6 +494,10 @@ func (t Taint) String() string {
 type WaitSignal struct {
 	Enabled      bool `yaml:"enabled"`
 	MaxBatchSize int  `yaml:"maxBatchSize"`
+}
+
+type Kube2IamSupport struct {
+	Enabled bool `yaml:"enabled"`
 }
 
 const (

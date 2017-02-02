@@ -162,6 +162,8 @@ experimental:
       effect: NoSchedule
   waitSignal:
     enabled: true
+  kube2IamSupport:
+    enabled: true
 `,
 			assertProvidedConfig: []NodePoolConfigTester{
 				hasDefaultLaunchSpecifications,
@@ -203,6 +205,9 @@ experimental:
 						WaitSignal: cfg.WaitSignal{
 							Enabled:      true,
 							MaxBatchSize: 1,
+						},
+						Kube2IamSupport: cfg.Kube2IamSupport{
+							Enabled: true,
 						},
 					}
 
@@ -392,6 +397,16 @@ worker:
 						)
 					}
 				},
+			},
+		},
+		{
+			context: "WithWorkerManagedIamRole",
+			configYaml: minimalValidConfigYaml + `
+workerManagedIamRole: "yourManagedRole"
+`,
+			assertProvidedConfig: []NodePoolConfigTester{
+				hasDefaultExperimentalFeatures,
+				hasDefaultLaunchSpecifications,
 			},
 		},
 		{
